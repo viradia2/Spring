@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!--
+	//This was using Setter Method of Triangle class.
+	//So it is called as Setter Injection.
+	<beans>
+		<bean id="triangle" class="org.spring.Triangle">
+			<property name="type" value="Equilateral">
+		</bean>
+	</beans>
+
+	//This was using Constructor of Triangle class.
+	//So it is called as Constructor Injection.
+	<beans>
+		<bean id="triangle" class="org.spring.Triangle">
+			<constructor-arg value="Equilateral">
+				
+			//if constructor has more than one arguments..
+			/**********************************************************
+			 * During Constructor overloading Spring cannot find
+			 * that which constructor to call because we are passing
+			 * int and string both as string. So "Type" attribute
+			 * is used to define the type of argument we are expecting
+			 * from constructor. "Index" attribute for defining how
+			 * rank in the code of more than one constructor.
+			 **********************************************************/ 
+			<constructor-arg type="int" value="20">
+		</bean>
+	</beans>
+ -->
+
+<beans>
+	
+	
+	<!-- 
+		BEAN Definition Inheritance for Object
+		
+		<bean id="parentTriangle" class="org.spring.Triangle">
+			<property name="pointA" ref="pointA" /> 
+		</bean>
+		<bean id="triangle" class="org.spring.Triangle" parent="parentTriangle">
+		    <property name="pointB" ref="pointB" /> 
+			<property name="pointC" ref="pointC" />
+		</bean>
+		<bean id="triangle2" class="org.spring.Triangle" parent="triangle">
+		    <property name="pointB" ref="pointB" /> 
+		</bean>
+		
+		BEAN Definition Inheritance for Collection
+		
+		<bean id="parentTriangle" class="org.spring.Triangle">
+			<property name="points">
+				<list>
+					<ref bean="pointA" />
+				</list>
+			</property> 
+		</bean>
+		<bean id="triangle" class="org.spring.Triangle" parent="parentTriangle">
+			<property name="points">
+				<list merge="true">
+					<ref bean="pointB" />
+				</list>
+			</property> 
+		</bean>
+	-->
+	
+	<bean id="triangle" class="org.spring.Triangle">
+	    <property name="pointA" ref="pointA" /> 
+	    <property name="pointB" ref="pointB" /> 
+		<property name="pointC" ref="pointC" />
+		<!-- 
+			AUTO WIRING: By Name
+			If bean names and property  or member variable of class name
+			are same then we can write "autowire="byName" property and we 
+			do not have to refer bean. Spring will automatically do wiring.
+			
+			AUTO WIRING: By Type
+			If bean has class and that class has only single member variable
+			it will do wiring automatically using "autowire="bType"  but it
+			will not work if class has more than one variable.
+		-->
+		<!-- 
+			Referencing ZeroPoint to a triangle
+			<property name="pointA" ref="zeroPoint" /> 
+		    <property name="pointB" ref="pointB" /> 
+			<property name="pointC" ref="pointC" />
+		--> 
+		
+		<!-- 
+			How to declare Inner Bean
+			<property name="pointB">
+				Inner Bean
+				<bean class="org.spring.Point">
+					<property name="x" value="-20" />
+					<property name="y" value="0" />
+				</bean>
+			</property> 
+		-->
+		
+		<!-- 
+			For initializing List Collection in Spring
+			<property name="points">
+				<list>
+					<ref bean="zeroPoint" />
+					<ref bean="pointB" />
+					<ref bean="pointC" />
+				</list>
+			</property>
+		-->
+		
+	</bean>
+	
+	<bean id="pointA" class="org.spring.Point">
+		<property name="x" value="0" />
+		<property name="y" value="0" />
+	</bean>
+	
+	<bean id="pointB" class="org.spring.Point">
+		<property name="x" value="20" />
+		<property name="y" value="0" />
+	</bean>
+	
+	<bean id="pointC" class="org.spring.Point">
+		<property name="x" value="0" />
+		<property name="y" value="-20" />
+	</bean>
+	<bean class="org.spring.DisplayFactoryProcessor" />
+	
+	<!-- <alias name="triangle" alias="triangle-alis" /> -->
+	
+</beans>
